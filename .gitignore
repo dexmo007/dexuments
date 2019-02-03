@@ -1,0 +1,11 @@
+# IDE
+.vscode
+
+# python
+__pycache__/
+
+# custom
+.dexuments
+.docs
+docs
+people

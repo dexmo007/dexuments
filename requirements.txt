@@ -1,0 +1,8 @@
+watchdog
+textract
+tensorflow
+tensorflow_hub
+numpy
+scipy
+matplotlib
+face_recognition
