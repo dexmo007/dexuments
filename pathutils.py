@@ -10,4 +10,4 @@ def iterfiles(*files):
             yield f
 
 def is_img(f):
-    return os.path.isfile(f) and os.path.splitext(f)[1] in ['.jpg','.jpeg','.png','.gif']
+    return os.path.isfile(f) and os.path.splitext(f)[1].lower() in ['.jpg','.jpeg','.png','.gif']

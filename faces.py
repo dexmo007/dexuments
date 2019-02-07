@@ -8,6 +8,7 @@ import face_recognition
 
 from pathutils import iterfiles
 
+
 class FaceManager:
     def __init__(self, dex_dir, db_mgr):
         self.db_path = os.path.join(dex_dir, 'faces.dat')
@@ -35,16 +36,17 @@ class FaceManager:
         for f in img_paths:
             self.db_mgr.clear_face_mappings(f)
             image = face_recognition.load_image_file(f)
-            encodings = face_recognition.face_encodings(image)
-            for encoding in encodings:
+            face_locations = face_recognition.face_locations(image)
+            encodings = face_recognition.face_encodings(image, face_locations)
+            for encoding, (top, right, bottom, left) in zip(encodings, face_locations):
                 face_id = self.is_known_face(encoding)
                 if face_id is not None:
                     self.db[face_id].append(encoding)
                 else:
                     face_id = str(uuid.uuid4())
                     self.db[face_id] = [encoding]
-                # todo actually get face location
-                self.db_mgr.save_face_mapping(face_id, f, 0,0,0,0)
+                self.db_mgr.save_face_mapping(
+                    face_id, f, top, right, bottom, left)
                 any_changes = True
         if any_changes:
             self.persist()
